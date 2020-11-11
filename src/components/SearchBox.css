@@ -1,0 +1,9 @@
+.w6 {
+  width: 25rem;
+}
+
+@media only screen and (max-width: 512px) {
+  .w6 {
+    width: 17rem;
+  }
+}
