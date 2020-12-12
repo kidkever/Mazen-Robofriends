@@ -1,10 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import CardList from "../components/CardList";
 import SearchBox from "../components/SearchBox";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { setSearchField, requestRobots } from "../actions";
+import { connect } from "react-redux";
 import "./App.css";
 
-const App = () => {
+const mapStateToProps = (state) => {
+  return {
+    searchField: state.searchRobots.searchField,
+    robots: state.requestRobots.robots,
+    isPending: state.requestRobots.isPending,
+    error: state.requestRobots.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+    onRequestRobots: () => requestRobots(dispatch),
+  };
+};
+
+const App = (props) => {
   // constructor() {
   //   super();
   //   this.state = {
@@ -12,8 +30,9 @@ const App = () => {
   //     searchfield: "",
   //   };
   // }
-  const [robots, setRobots] = useState([]);
-  const [searchfield, setSearchfield] = useState("");
+
+  //const [robots, setRobots] = useState([]);
+  //const [searchfield, setSearchfield] = useState("");
 
   // componentDidMount() {
   //   fetch("https://jsonplaceholder.typicode.com/users")
@@ -24,26 +43,28 @@ const App = () => {
   //       this.setState({ robots: users });
   //     });
   // }
-
+  //const { onRequestRobots } = props;
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => {
-        return response.json();
-      })
-      .then((users) => {
-        setRobots(users);
-      });
+    // fetch("https://jsonplaceholder.typicode.com/users")
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((users) => {
+    //     setRobots(users);
+    //   });
+    props.onRequestRobots();
   }, []);
 
-  const onSearchChange = (event) => {
-    setSearchfield(event.target.value);
-  };
+  // const onSearchChange = (event) => {
+  //   setSearchfield(event.target.value);
+  // };
 
   //const { robots, searchfield } = this.state;
+  const { searchField, onSearchChange, robots, isPending } = props;
   const filteredRobots = robots.filter((robot) => {
-    return robot.name.toLowerCase().includes(searchfield.toLowerCase());
+    return robot.name.toLowerCase().includes(searchField.toLowerCase());
   });
-  if (!robots.length) {
+  if (isPending) {
     return <h1 className="tc">Loading</h1>;
   } else {
     return (
@@ -58,4 +79,4 @@ const App = () => {
   }
 };
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
