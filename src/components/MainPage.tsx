@@ -34,7 +34,7 @@ class MainPage extends Component<Props> {
   render() {
     const { onSearchChange, robots, isPending } = this.props;
     if (isPending) {
-      return <h1 className="tc">Loading</h1>;
+      return <h2 className="tc">Loading</h2>;
     } else {
       return (
         <div className="tc">
