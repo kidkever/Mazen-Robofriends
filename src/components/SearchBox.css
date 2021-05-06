@@ -2,6 +2,10 @@
   width: 25rem;
 }
 
+input {
+  outline: none;
+}
+
 @media only screen and (max-width: 512px) {
   .w6 {
     width: 17rem;

@@ -1,6 +1,16 @@
 import React from "react";
 
-const Card = ({ id, name, email }) => {
+interface CardStatelessProps {
+  name: string;
+  id: number;
+  email: string;
+}
+
+const Card: React.FunctionComponent<CardStatelessProps> = ({
+  id,
+  name,
+  email,
+}: any) => {
   return (
     <div className="bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5">
       <img
